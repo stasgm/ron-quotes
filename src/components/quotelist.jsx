@@ -26,15 +26,16 @@ class QuoteList extends Component {
         */
     };
 
+
     render(){
         return(
             <ListGroup>
                 {
-                    this.props.quotes.map((value, i)=> (
-                        <ListGroupItem className='quotes-item' key={i} /* href='#' onClick={this.handleToggle(value)}*/>
-                            {value}
+                    this.props.quotes.map((text, id)=> (
+                        <ListGroupItem className='quotes-item' key={id} /* href='#' onClick={this.handleToggle(value)}*/>
+                            {text}
                             <div className='quotes-buttons'>
-                                <button type="button" className="btn btn-default btn-sm quotes-button" onClick={this.props.onClick(value, i)}>
+                                <button type="button" className="btn btn-default btn-sm quotes-button" onClick={this.props.onClick({id, text})}>
                                     <span className="glyphicon glyphicon-pencil" />
                                 </button>
                                 <button type="button" className="btn btn-default btn-sm quotes-button">
@@ -60,14 +61,11 @@ class QuotesList extends Component {
         }
     };
 
-    handleEdit = (value, id) => () => {
+    handleEdit = (quote) => () => {
         this.setState({
             title: 'Редактирование цитаты',
             showModal: true,
-            quote: {
-                id: id,
-                text: value,
-            }
+            quote,
         });
     };
 

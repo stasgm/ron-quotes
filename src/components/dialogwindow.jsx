@@ -47,8 +47,7 @@ class DialogWindow extends Component{
                             autoFocus
                             onChange={this.handleChange}
                             className="form-control"
-
-                            rows="2"
+                            rows="3"
                             defaultValue={quote.text}
                         />
                     </Modal.Body>

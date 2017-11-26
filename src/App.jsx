@@ -15,7 +15,18 @@ class Quotes extends Component {
 
     componentDidMount(){
         /* Сделать загрузить из хранилища. А покуда первая цитата с сайта */
-        this.loadQuote();
+      //  this.loadQuote();
+        const savedQuotes = JSON.parse(localStorage.getItem('quotes'));
+
+        if (savedQuotes) {
+            this.setState({ quotes: savedQuotes });
+        }
+
+    }
+
+    componentDidUpdate() {
+        const quotes = JSON.stringify(this.state.quotes);
+        localStorage.setItem('quotes', quotes);
     }
 
     handleLoadClick = () => {
@@ -40,9 +51,9 @@ class Quotes extends Component {
     };
 
     handleSaveQuotes = () => {
-
+        const quotes = JSON.stringify(this.state.quotes);
+        localStorage.setItem('quotes', quotes);
     };
-
 
     loadQuote(){
         /* Загружает цитату Рона Свонсона */
@@ -60,11 +71,18 @@ class Quotes extends Component {
         })
     }
 
+    handleAddQuote = () => {
+
+    };
+
     render() {
         return (
             <div className='App'>
                 <div className='App-title'>Цитаты Рона Свонсона</div>
                 <div className='form-quote'>
+                    <Button className='button-quote button' onClick={this.handleAddQuote}>
+                        Добавить цитату
+                    </Button>
                     <Button className='button-quote button' onClick={this.handleLoadClick}>
                         Загрузить цитату
                     </Button>
