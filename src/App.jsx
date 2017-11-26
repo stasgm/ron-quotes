@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 
 import QuotesList from './components/quotelist';
+import DialogWindow from './components/dialogwindow'
 // Styles
 import './App.css';
 
@@ -10,7 +11,16 @@ class Quotes extends Component {
     constructor() {
         super();
         this.state = {
-            quotes: []
+            quotes: [],
+            addModal: {
+                showModal: false,
+                title: '',
+                text: '',
+                quote: {
+                    text: '',
+                    id: null,
+                }
+            }
         };
     }
 
@@ -23,8 +33,8 @@ class Quotes extends Component {
     }
 
     componentDidUpdate() {
-        const quotes = JSON.stringify(this.state.quotes);
-        localStorage.setItem('quotes', quotes);
+        // const quotes = JSON.stringify(this.state.quotes);
+        // localStorage.setItem('quotes', quotes);
     }
 
     handleLoadClick = () => {
@@ -68,14 +78,30 @@ class Quotes extends Component {
         })
             .then(response => response.json())
             .then(json => {
-                this.setState({quotes: [json[0], ...this.state.quotes]});
+                this.setState({quotes: [...this.state.quotes, json[0]]});
             }).catch(function(error) {
                 console.log('There has been a problem with fetch operation: ' + error.message);
                 //this.setState({state: 'There has been a problem with fetch operation: ' + error.message})
         })
     }
 
-    handleAddQuote = () => {
+    handleAddQuoteModal = () => {
+        console.log("Вызов handleAddQuoteModal");
+        this.setState({
+            addModal: {
+                showModal: true,
+                title: 'Введите новую цитату',
+                quote: {
+                    text: '',
+                    id: null,
+                }
+            }
+        });
+    };
+
+    handleAddQuote = (quote) => () => {
+        console.log("Вызов handleAddQuote", quote);
+        this.setState({quotes: [...this.state.quotes, quote.text], addModal: {...this.state.addModal, showModal: false}});
 
     };
 
@@ -84,7 +110,7 @@ class Quotes extends Component {
             <div className='App'>
                 <div className='App-title'>Цитаты Рона Свонсона</div>
                 <div className='form-quote'>
-                    <Button className='button-quote button' onClick={this.handleAddQuote}>
+                    <Button className='button-quote button' onClick={this.handleAddQuoteModal}>
                         Добавить цитату
                     </Button>
                     <Button className='button-quote button' onClick={this.handleLoadClick}>
@@ -100,6 +126,12 @@ class Quotes extends Component {
                         Сохранить
                     </Button>
                     <QuotesList list={this.state.quotes} onEdit={this.handleEditQuote} onDelete={this.handleDeleteQuote}/>
+
+                    <DialogWindow
+                        {...this.state.addModal}
+                        onClose={() => this.setState({addModal: {...this.state.addModal, showModal: false}})}
+                        onSave={this.handleAddQuote}
+                    />
                 </div>
             </div>
         );
@@ -110,10 +142,10 @@ Quotes.propTypes = {};
 
 
 /* TODO
-    1) Сделать сохранение цитат в localstorage
-    2) При открытии загружать цитаты из localstorage
+    +1) Сделать сохранение цитат в localstorage
+    + 2) При открытии загружать цитаты из localstorage
     3) Статус - цитата сохранена в хранилище или нет (цветов выделять строки)
-    4) Кнопка 'добавить свою цитату'
+    + 4) Кнопка 'добавить свою цитату'
  */
 
 export default Quotes;

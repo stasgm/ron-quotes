@@ -36,13 +36,6 @@ class DialogWindow extends Component{
                         <Modal.Title>{title}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        {/*<FormControl*/}
-                            {/*autoFocus*/}
-                            {/*type="text"*/}
-                            {/*defaultValue={quote.text}*/}
-                            {/*placeholder="Цитата"*/}
-                            {/*onChange={this.handleChange}*/}
-                        {/*/>*/}
                         <textarea
                             autoFocus
                             onChange={this.handleChange}

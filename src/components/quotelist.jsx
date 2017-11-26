@@ -32,7 +32,7 @@ class QuoteList extends Component {
             <ListGroup>
                 {
                     this.props.quotes.map((text, id)=> (
-                        <ListGroupItem className='quotes-item slideRight' key={id} /* href='#' onClick={this.handleToggle(value)}*/>
+                        <ListGroupItem className='quotes-item animated slideRight fadeInUp' key={id} /* href='#' onClick={this.handleToggle(value)}*/>
                             {text}
                             <div className='quotes-buttons'>
                                 <button type="button" className="btn btn-default btn-sm quotes-button" onClick={this.props.onEdit({id, text})}>

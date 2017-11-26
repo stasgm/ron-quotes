@@ -38,11 +38,11 @@
 }
 
 .quotes-item:hover {
-    background-color: #97CE68;
-    color: #000;
-    //-webkit-transform: scale(1.05);
-    //-moz-transform: scale(1.05);
-    -o-transform: scale(4);
+    background-color: #3d5061;
+    color: #ffffff;
+    -webkit-transform: scale(1.05);
+    -moz-transform: scale(1.05);
+    -o-transform: scale(1.05);
 }
 
 .quotes-buttons{
