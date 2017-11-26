@@ -30,6 +30,19 @@
     justify-content: flex-start;
     text-decoration: none;
     padding-right: 85px;
+
+    -moz-transition: all 1s ease-out;
+    -o-transition: all 1s ease-out;
+    -webkit-transition: all 1s ease-out;
+    cursor: pointer;
+}
+
+.quotes-item:hover {
+    background-color: #97CE68;
+    color: #000;
+    //-webkit-transform: scale(1.05);
+    //-moz-transform: scale(1.05);
+    -o-transform: scale(4);
 }
 
 .quotes-buttons{
@@ -43,3 +56,27 @@
     margin-right: 3px;
     margin-left: 3px;
 }
+
+/*
+.slideRight{
+    animation-name: slideRight;
+    -webkit-animation-name: slideRight;
+
+    animation-duration: 1.5s;
+    -webkit-animation-duration: 1.5s;
+
+    animation-timing-function: ease-in-out;
+    -webkit-animation-timing-function: ease-in-out;
+
+    visibility: visible !important;
+}
+
+@keyframes slideRight {
+    0% {
+        transform: translateX(-150%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+*/

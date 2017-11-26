@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
 
 import DialogWindow from './dialogwindow'
+import DialogDeleteQuote from './dialogdeletequote'
 // Styles
 import '../App.css';
 
@@ -26,19 +27,18 @@ class QuoteList extends Component {
         */
     };
 
-
     render(){
         return(
             <ListGroup>
                 {
                     this.props.quotes.map((text, id)=> (
-                        <ListGroupItem className='quotes-item' key={id} /* href='#' onClick={this.handleToggle(value)}*/>
+                        <ListGroupItem className='quotes-item slideRight' key={id} /* href='#' onClick={this.handleToggle(value)}*/>
                             {text}
                             <div className='quotes-buttons'>
-                                <button type="button" className="btn btn-default btn-sm quotes-button" onClick={this.props.onClick({id, text})}>
+                                <button type="button" className="btn btn-default btn-sm quotes-button" onClick={this.props.onEdit({id, text})}>
                                     <span className="glyphicon glyphicon-pencil" />
                                 </button>
-                                <button type="button" className="btn btn-default btn-sm quotes-button">
+                                <button type="button" className="btn btn-default btn-sm quotes-button" onClick={this.props.onDelete({id, text})}>
                                     <span className="glyphicon glyphicon-trash" />
                                 </button>
                             </div>
@@ -54,6 +54,7 @@ class QuotesList extends Component {
     state = {
         checked: [0],
         showModal: false,
+        showDeleteModal: false,
         title: '',
         quote: {
             id: null,
@@ -61,7 +62,7 @@ class QuotesList extends Component {
         }
     };
 
-    handleEdit = (quote) => () => {
+    handleOnEdit = (quote) => () => {
         this.setState({
             title: 'Редактирование цитаты',
             showModal: true,
@@ -69,12 +70,28 @@ class QuotesList extends Component {
         });
     };
 
-    handleSave = (quoteVal) => () => {
+    handleSave = (quote) => () => {
          this.setState({
              showModal: false
         });
 
-        this.props.onEdit(quoteVal);
+        this.props.onEdit(quote);
+    };
+
+    handleOnDelete = (quote) => () => {
+        this.setState({
+            title: 'Редактирование цитаты',
+            showDeleteModal: true,
+            quote,
+        });
+    };
+
+    handleOk = (id) => () => {
+        console.log('delete');
+        this.setState({
+            showDeleteModal: false,
+        });
+        this.props.onDelete(id);
     };
 
     render(){
@@ -87,9 +104,17 @@ class QuotesList extends Component {
                     onClose={() => this.setState({showModal: false})}
                     onSave={this.handleSave}
                 />
+                <DialogDeleteQuote
+                    showDeleteModal={this.state.showDeleteModal}
+                    title='Вы действительно хотите удалить цитату?'
+                    quote={this.state.quote}
+                    onClose={() => this.setState({showDeleteModal: false})}
+                    onOk={this.handleOk}
+                />
                 <QuoteList
                     quotes={this.props.list}
-                    onClick={this.handleEdit}
+                    onEdit={this.handleOnEdit}
+                    onDelete={this.handleOnDelete}
                 />
             </div>
         )

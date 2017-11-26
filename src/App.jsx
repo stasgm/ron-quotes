@@ -1,6 +1,7 @@
 //Libraries
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
+
 import QuotesList from './components/quotelist';
 // Styles
 import './App.css';
@@ -14,14 +15,11 @@ class Quotes extends Component {
     }
 
     componentDidMount(){
-        /* Сделать загрузить из хранилища. А покуда первая цитата с сайта */
-      //  this.loadQuote();
         const savedQuotes = JSON.parse(localStorage.getItem('quotes'));
 
         if (savedQuotes) {
             this.setState({ quotes: savedQuotes });
         }
-
     }
 
     componentDidUpdate() {
@@ -44,10 +42,16 @@ class Quotes extends Component {
         });
     };
 
-    editQuote = (quote) => {
+    handleEditQuote = (quote) => {
         let newQuotes = this.state.quotes;
         newQuotes[quote.id] = quote.text ;
         this.setState({quotes: newQuotes});
+    };
+
+    handleDeleteQuote = (id) => {
+        this.setState({
+            quotes: this.state.quotes.filter((quote, i) => i !== id)
+        })
     };
 
     handleSaveQuotes = () => {
@@ -95,7 +99,7 @@ class Quotes extends Component {
                     <Button className='button-save button' onClick={this.handleSaveQuotes}>
                         Сохранить
                     </Button>
-                    <QuotesList list={this.state.quotes} onEdit={this.editQuote}/>
+                    <QuotesList list={this.state.quotes} onEdit={this.handleEditQuote} onDelete={this.handleDeleteQuote}/>
                 </div>
             </div>
         );

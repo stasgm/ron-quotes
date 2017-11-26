@@ -52,8 +52,8 @@ class DialogWindow extends Component{
                         />
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={onClose}>Close</Button>
-                        <Button onClick={onSave(this.state.quote)} bsStyle="primary" type='submit'>Save changes</Button>
+                        <Button onClick={onClose}>Закрыть</Button>
+                        <Button onClick={onSave(this.state.quote)} bsStyle="primary" type='submit'>Сохранить</Button>
                     </Modal.Footer>
                 </Modal>
             </div>
