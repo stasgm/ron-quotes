@@ -7,34 +7,48 @@ import DialogWindow from './components/dialogwindow'
 // Styles
 import './App.css';
 
-class Quotes extends Component {
-    constructor() {
-        super();
-        this.state = {
-            quotes: [],
-            addModal: {
-                showModal: false,
-                title: '',
+class App extends Component {
+    state = {
+        quotes: [],
+        addModal: {
+            showModal: false,
+            title: '',
+            text: '',
+            quote: {
                 text: '',
-                quote: {
-                    text: '',
-                    id: null,
-                }
+                id: null,
             }
-        };
-    }
+        }
+    };
 
     componentDidMount(){
         const savedQuotes = JSON.parse(localStorage.getItem('quotes'));
 
         if (savedQuotes) {
-            this.setState({ quotes: savedQuotes });
+            this.setState({ quotes: savedQuotes});
         }
     }
 
     componentDidUpdate() {
         // const quotes = JSON.stringify(this.state.quotes);
         // localStorage.setItem('quotes', quotes);
+    }
+
+    loadQuote(){
+        /* Загружает цитату Рона Свонсона */
+        let URL = 'https://ron-swanson-quotes.herokuapp.com/v2/quotes';
+
+        fetch(URL, {
+            method: 'GET'
+        })
+            .then(response => response.json())
+            .then(json => {
+                this.setState({quotes: [...this.state.quotes, {text: json[0], isActive: true}]});
+
+            }).catch(function(error) {
+            console.log('There has been a problem with fetch operation: ' + error.message);
+            //this.setState({state: 'There has been a problem with fetch operation: ' + error.message})
+        })
     }
 
     handleLoadClick = () => {
@@ -54,36 +68,25 @@ class Quotes extends Component {
 
     handleEditQuote = (quote) => {
         let newQuotes = this.state.quotes;
-        newQuotes[quote.id] = quote.text ;
+        newQuotes[quote.id].text = quote.text;
         this.setState({quotes: newQuotes});
     };
 
     handleDeleteQuote = (id) => {
-        this.setState({
-            quotes: this.state.quotes.filter((quote, i) => i !== id)
-        })
+        let newQuotes = this.state.quotes;
+        newQuotes[id].isActive = false;
+        this.setState({quotes: newQuotes});
+
+        setTimeout(() => {this.setState({quotes: this.state.quotes.filter((quote, i) => i !== id)})}, 600);
+        //  this.setState({
+        //      quotes: this.state.quotes.filter((quote, i) => i !== id)
+        //  })
     };
 
     handleSaveQuotes = () => {
         const quotes = JSON.stringify(this.state.quotes);
         localStorage.setItem('quotes', quotes);
     };
-
-    loadQuote(){
-        /* Загружает цитату Рона Свонсона */
-        let URL = 'http://ron-swanson-quotes.herokuapp.com/v2/quotes';
-
-        fetch(URL, {
-            method: 'GET'
-        })
-            .then(response => response.json())
-            .then(json => {
-                this.setState({quotes: [...this.state.quotes, json[0]]});
-            }).catch(function(error) {
-                console.log('There has been a problem with fetch operation: ' + error.message);
-                //this.setState({state: 'There has been a problem with fetch operation: ' + error.message})
-        })
-    }
 
     handleAddQuoteModal = () => {
         console.log("Вызов handleAddQuoteModal");
@@ -101,7 +104,7 @@ class Quotes extends Component {
 
     handleAddQuote = (quote) => () => {
         console.log("Вызов handleAddQuote", quote);
-        this.setState({quotes: [...this.state.quotes, quote.text], addModal: {...this.state.addModal, showModal: false}});
+        this.setState({quotes: [...this.state.quotes, {text: quote.text, isActive: true}], addModal: {...this.state.addModal, showModal: false}});
 
     };
 
@@ -125,20 +128,24 @@ class Quotes extends Component {
                     <Button className='button-save button' onClick={this.handleSaveQuotes}>
                         Сохранить
                     </Button>
-                    <QuotesList list={this.state.quotes} onEdit={this.handleEditQuote} onDelete={this.handleDeleteQuote}/>
-
-                    <DialogWindow
-                        {...this.state.addModal}
-                        onClose={() => this.setState({addModal: {...this.state.addModal, showModal: false}})}
-                        onSave={this.handleAddQuote}
-                    />
+                    <QuotesList quotes={this.state.quotes} onEdit={this.handleEditQuote} onDelete={this.handleDeleteQuote}/>
+                    {
+                        this.state.addModal.showModal !== null && this.state.addModal.showModal !== undefined && this.state.addModal.showModal
+                            ?
+                            <DialogWindow
+                                {...this.state.addModal}
+                                onClose={() => this.setState({addModal: {...this.state.addModal, showModal: false}})}
+                                onSave={this.handleAddQuote}
+                            />
+                            : <div />
+                    }
                 </div>
             </div>
         );
     }
 }
 
-Quotes.propTypes = {};
+App.propTypes = {};
 
 
 /* TODO
@@ -148,4 +155,4 @@ Quotes.propTypes = {};
     + 4) Кнопка 'добавить свою цитату'
  */
 
-export default Quotes;
+export default App;

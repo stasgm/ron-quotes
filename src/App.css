@@ -37,6 +37,10 @@
     cursor: pointer;
 }
 
+.disabled{
+    visibility: hidden;
+}
+
 .quotes-item:hover {
     background-color: #3d5061;
     color: #ffffff;
@@ -56,27 +60,3 @@
     margin-right: 3px;
     margin-left: 3px;
 }
-
-/*
-.slideRight{
-    animation-name: slideRight;
-    -webkit-animation-name: slideRight;
-
-    animation-duration: 1.5s;
-    -webkit-animation-duration: 1.5s;
-
-    animation-timing-function: ease-in-out;
-    -webkit-animation-timing-function: ease-in-out;
-
-    visibility: visible !important;
-}
-
-@keyframes slideRight {
-    0% {
-        transform: translateX(-150%);
-    }
-    100% {
-        transform: translateX(0%);
-    }
-}
-*/

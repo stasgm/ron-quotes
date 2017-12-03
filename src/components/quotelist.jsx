@@ -7,7 +7,6 @@ import DialogDeleteQuote from './dialogdeletequote'
 // Styles
 import '../App.css';
 
-
 class QuoteList extends Component {
     handleToggle = value => () => {
         /*
@@ -28,22 +27,26 @@ class QuoteList extends Component {
     };
 
     render(){
+        let isDisabled = false;
         return(
             <ListGroup>
                 {
-                    this.props.quotes.map((text, id)=> (
-                        <ListGroupItem className='quotes-item animated slideRight fadeInUp' key={id} /* href='#' onClick={this.handleToggle(value)}*/>
-                            {text}
+                    this.props.quotes.map((quote, id)=> {
+                        if (!quote.isActive) isDisabled = true;
+                        return(
+                        <ListGroupItem className={`quotes-item animated ${!quote.isActive ? 'fadeOutDown disabled': isDisabled ? '': ('fadeInUp enabled')}`} key={id} >
+                            {quote.text}
                             <div className='quotes-buttons'>
-                                <button type="button" className="btn btn-default btn-sm quotes-button" onClick={this.props.onEdit({id, text})}>
+                                <button type="button" className="btn btn-default btn-sm quotes-button" onClick={this.props.onEdit({id, text: quote.text})}>
                                     <span className="glyphicon glyphicon-pencil" />
                                 </button>
-                                <button type="button" className="btn btn-default btn-sm quotes-button" onClick={this.props.onDelete({id, text})}>
+                                <button type="button" className="btn btn-default btn-sm quotes-button" onClick={this.props.onDelete({id, text: quote.text})}>
                                     <span className="glyphicon glyphicon-trash" />
                                 </button>
                             </div>
                         </ListGroupItem>
-                    ))
+                    )}
+                    )
                 }
             </ListGroup>
         )
@@ -59,6 +62,7 @@ class QuotesList extends Component {
         quote: {
             id: null,
             text: '',
+            isActive: true,
         }
     };
 
@@ -112,7 +116,7 @@ class QuotesList extends Component {
                     onOk={this.handleOk}
                 />
                 <QuoteList
-                    quotes={this.props.list}
+                    quotes={this.props.quotes}
                     onEdit={this.handleOnEdit}
                     onDelete={this.handleOnDelete}
                 />
