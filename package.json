@@ -4,10 +4,15 @@
   "private": true,
   "dependencies": {
     "animate.css": "^3.5.2",
+    "prop-types": "^15.6.0",
     "react": "^16.1.1",
     "react-bootstrap": "^0.31.5",
     "react-dom": "^16.1.1",
-    "react-icons": "^2.2.7"
+    "react-icons": "^2.2.7",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "seamless-immutable": "^7.1.2",
+    "shortid": "^2.2.8"
   },
   "devDependencies": {
     "react-scripts": "1.0.17"
