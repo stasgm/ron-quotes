@@ -46,8 +46,8 @@ class DialogForm extends Component{
                             /> : <div>{quote.text}</div>}
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={onHide}>Отмена</Button>
-                        <Button onClick={onSave(type === 1 ? this.state.quote : this.props.quote)} bsStyle="primary" type='submit'>{type === 1 ? 'Сохранить' : 'OK'}</Button>
+                        <Button className='modal-button' onClick={onSave(type === 1 ? this.state.quote : this.props.quote)} bsStyle="primary" type='submit'>{type === 1 ? 'Сохранить' : 'OK'}</Button>
+                        <Button className='modal-button' onClick={onHide}>Отмена</Button>
                     </Modal.Footer>
                 </Modal>
             </div>
