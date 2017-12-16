@@ -84,18 +84,18 @@ class Menu extends Component{
                     onSave={this.handleModalSaveClicked}
                 /> : null }
                 <ButtonGroup className="menu-button-group">
-                    <DropdownButton title="Добавить" className='button'>
+                    <DropdownButton title="Добавить" className='button' id='addGroup'>
                         <MenuItem className="button-add-quote button" onClick={this.handleAddQuote}>
                             Добавить цитату
                         </MenuItem>
-                        <MenuItem className='button-load-quote button' onClick={this.handleLoadClick} >
+                        <MenuItem className='button-load-quote button' onClick={this.handleLoadClick}>
                             Загрузить цитату
                         </MenuItem>
-                        <MenuItem  className='button-load10-quote button' onClick={this.handle10LoadClick} >
+                        <MenuItem  className='button-load10-quote button' onClick={this.handle10LoadClick}>
                             Загрузить 10 цитат
                         </MenuItem>
                     </DropdownButton>
-                    <DropdownButton title="Удалить" className='button'>
+                    <DropdownButton title="Удалить" className='button' id='deleteGroup'>
                         <MenuItem className='button-clear-all button' onClick={this.props.actions.clearQuotes} >
                             Все цитаты
                         </MenuItem>
