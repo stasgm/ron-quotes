@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import DialogForm from '../components/DialogForm'
-import { ButtonGroup, Button } from 'react-bootstrap';
+import { ButtonGroup, Button, DropdownButton, MenuItem } from 'react-bootstrap';
 
 class Menu extends Component{
     state = {
@@ -82,22 +82,35 @@ class Menu extends Component{
                     modalIsOpen={this.state.modal.isOpen}
                     onHide={this.closeModal}
                     onSave={this.handleModalSaveClicked}
-                /> : null}
+                /> : null }
                 <ButtonGroup className="menu-button-group">
-                    <Button className="button-add-quote button" onClick={this.handleAddQuote}>
-                        Добавить цитату
-                    </Button>
-                    <Button className='button-load-quote button' onClick={this.handleLoadClick} >
-                        Загрузить цитату
-                    </Button>
-                    <Button className='button-load10-quote button' onClick={this.handle10LoadClick} >
-                        Загрузить 10 цитат
-                    </Button>
-                    <Button className='button-clear button' onClick={this.props.actions.clearQuotes} >
-                        Очистить
-                    </Button>
+                    <DropdownButton title="Добавить" className='button'>
+                        <MenuItem className="button-add-quote button" onClick={this.handleAddQuote}>
+                            Добавить цитату
+                        </MenuItem>
+                        <MenuItem className='button-load-quote button' onClick={this.handleLoadClick} >
+                            Загрузить цитату
+                        </MenuItem>
+                        <MenuItem  className='button-load10-quote button' onClick={this.handle10LoadClick} >
+                            Загрузить 10 цитат
+                        </MenuItem>
+                    </DropdownButton>
+                    <DropdownButton title="Удалить" className='button'>
+                        <MenuItem className='button-clear-all button' onClick={this.props.actions.clearQuotes} >
+                            Все цитаты
+                        </MenuItem>
+                        <MenuItem className='button-clear-selected button' onClick={this.props.actions.deleteSelectedQuotes} >
+                            Отмеченные
+                        </MenuItem>
+                    </DropdownButton>
                     <Button className='button-save button' onClick={this.handleSaveQuotes} >
                         Сохранить
+                    </Button>
+                    <Button className='button-load-quotes button' onClick={this.props.actions.loadQuotes} >
+                        Загрузить
+                    </Button>
+                    <Button className='button-ron-swanson button' onClick={()=> window.open("https://www.google.com/search?q=ron+swanson", "_blank")} >
+                        Рон Свонсон
                     </Button>
                 </ButtonGroup>
             </div>

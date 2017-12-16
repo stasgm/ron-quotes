@@ -20,11 +20,7 @@ class QuoteList extends Component{
     };
 
     componentDidMount(){
-        const savedQuotes = JSON.parse(localStorage.getItem('quotes'));
-
-        if (savedQuotes) {
-            this.props.actions.loadQuotes(savedQuotes);
-        }
+        this.props.actions.loadQuotes();
     }
 
 

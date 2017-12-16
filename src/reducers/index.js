@@ -1,4 +1,4 @@
-import { ADD_QUOTE, EDIT_QUOTE, DELETE_QUOTE, CLEAR_QUOTES, SELECT_QUOTE, LOAD_QUOTES } from "../constants";
+import { ADD_QUOTE, EDIT_QUOTE, DELETE_QUOTE, CLEAR_QUOTES, DELETE_SELECTED_QUOTES, SELECT_QUOTE, LOAD_QUOTES } from "../constants";
 import shortid from 'shortid';
 
 const initialState = [];
@@ -23,11 +23,10 @@ const quotes = (state = initialState, action) => {
 
         case EDIT_QUOTE: {
             return state.map((item) => {
-                //console.log('item.id=', item.id, ', action.quote.id', action.quote.quote);
                 if (item.id !== action.quote.id) {
                     return item;
                 }
-                //console.log('text', action.quote.text);
+
                 return {
                     ...item,
                     text: action.quote.text,
@@ -50,8 +49,14 @@ const quotes = (state = initialState, action) => {
             });
 
         case LOAD_QUOTES:
-            return action.quotes;
+            const savedQuotes = JSON.parse(localStorage.getItem('quotes'));
+            if (savedQuotes) {
+                return savedQuotes;
+            }
+            return state;
 
+        case DELETE_SELECTED_QUOTES:
+            return state.filter(quote => !quote.selected );
         default:
             return state;
     }
