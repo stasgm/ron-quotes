@@ -12,9 +12,9 @@ class QuoteList extends Component{
             isOpen: false,
             quote: {
                 id: null,
-                title: ''
+                text: ''
             },
-            text: '',
+            title: '',
             onSave: null,
         }
     };
@@ -46,6 +46,7 @@ class QuoteList extends Component{
     handleDeleteQuote = (quote) => () => {
         this.closeModal();
         this.props.actions.deleteQuote(quote.id);
+        this.setState({});
     };
 
     handleDeleteQuoteDialog = (quote) => () => {
@@ -55,7 +56,6 @@ class QuoteList extends Component{
                 ...this.state.modal,
                 title: 'Удалить цитату?',
                 quote,
-                text: quote.title,
                 type: 0,
                 isOpen: true,
                 onSave: this.handleDeleteQuote,

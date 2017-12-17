@@ -2,18 +2,12 @@ import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
 class DialogForm extends Component{
-    state = {
-        quote: {
-            id: null,
-            text: '',
-        }
-    };
+    state = {quote: this.props.quote} || {};
 
     handleChange = (e) => {
         this.setState({
             quote: {
                     ...this.state.quote,
-                    id: this.props.quote.id,
                     text: e.target.value,
                 }
         });
@@ -23,11 +17,12 @@ class DialogForm extends Component{
         let {
             modalIsOpen,
             onHide,
-            title,
-            quote,
-            type,
             onSave,
+            title,
+            type,
         } = this.props;
+
+        const btnText = type === 1 ? 'Сохранить' : 'OK';
 
         return(
             <div className="static-modal">
@@ -42,11 +37,11 @@ class DialogForm extends Component{
                                 onChange={this.handleChange}
                                 className="form-control"
                                 rows="3"
-                                defaultValue={quote.text}
-                            /> : <div>{quote.text}</div>}
+                                defaultValue={this.state.quote.text}
+                            /> : <div>{this.state.quote.text}</div>}
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button className='modal-button' onClick={onSave(type === 1 ? this.state.quote : this.props.quote)} bsStyle="primary" type='submit'>{type === 1 ? 'Сохранить' : 'OK'}</Button>
+                        <Button className='modal-button' onClick={onSave(this.state.quote)} bsStyle="primary" type='submit'>{btnText}</Button>
                         <Button className='modal-button' onClick={onHide}>Отмена</Button>
                     </Modal.Footer>
                 </Modal>

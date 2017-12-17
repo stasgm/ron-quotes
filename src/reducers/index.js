@@ -4,59 +4,49 @@ import shortid from 'shortid';
 const initialState = [];
 
 const quotes = (state = initialState, action) => {
-    let quotes = null;
 
     switch(action.type){
         case ADD_QUOTE: {
-            //console.log('add', action.quote.text);
-            quotes = [
-                ...state, {
+            return [
+                ...state,
+                {
                     id: shortid.generate(),
                     text: action.text,
                     selected: false,
-                }];
-            return quotes;
+                },
+            ];
         }
 
         case DELETE_QUOTE:
             return state.filter(quote => quote.id !== action.id);
 
         case EDIT_QUOTE: {
-            return state.map((item) => {
-                if (item.id !== action.quote.id) {
-                    return item;
-                }
-
-                return {
-                    ...item,
-                    text: action.quote.text,
-                };
-            })
+            return state.map((item) => (
+                item.id !== action.quote.id
+                    ? item
+                    : {...item, text: action.quote.text}
+                    )
+            )
         }
 
         case CLEAR_QUOTES: return state=[];
 
-        case SELECT_QUOTE:
-            return state.map((item) => {
-                if(item.id !== action.id)
-                {
-                    return item;
-                }
-                return {
-                    ...item,
-                    selected: !item.selected
-                };
-            });
+        case SELECT_QUOTE: {
+            return state.map((item) => (
+                    item.id !== action.id
+                        ? item
+                        : {...item, selected: !item.selected}
+                )
+            )
+        }
 
         case LOAD_QUOTES:
             const savedQuotes = JSON.parse(localStorage.getItem('quotes'));
-            if (savedQuotes) {
-                return savedQuotes;
-            }
-            return state;
+            return savedQuotes ? savedQuotes : state;
 
         case DELETE_SELECTED_QUOTES:
             return state.filter(quote => !quote.selected );
+
         default:
             return state;
     }
