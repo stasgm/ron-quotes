@@ -1,7 +1,9 @@
 {
   "name": "ron-quates",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
+  "author": "Stanislau Shliakhtsich",
+  "license": "MIT",
   "dependencies": {
     "animate.css": "^3.5.2",
     "prop-types": "^15.6.0",
@@ -15,12 +17,14 @@
     "shortid": "^2.2.8"
   },
   "devDependencies": {
+    "eslint-config-airbnb": "^16.1.0",
     "react-scripts": "1.0.17"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint ./src"
   }
 }
