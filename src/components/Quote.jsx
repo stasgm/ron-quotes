@@ -3,14 +3,16 @@ import PropTypes from 'prop-types';
 
 import { ListGroupItem } from 'react-bootstrap';
 
-const Quote = ({ onEdit, onDelete, onSelect, quote:  quoteItem}) => (
-    <ListGroupItem className={`quotes-item animated fadeInUp ${quoteItem.selected? 'selected-item': null}`}>
-        <div className='quote-text' onClick={() => onSelect(quoteItem.id)}>{quoteItem.text} </div>
-        <div className='quotes-buttons'>
-            <button type="button" className="btn btn-default btn-sm quotes-button" onClick={onEdit(quoteItem)}>
+const Quote = ({
+    onEdit, onDelete, onSelect, quote,
+}) => (
+    <ListGroupItem className={`quotes-item animated fadeInUp ${quote.selected || 'selected-item'}`}>
+        <div className="quote-text" onClick={onSelect(quote.id)}>{quote.text} </div>
+        <div className="quotes-buttons">
+            <button type="button" className="btn btn-default btn-sm quotes-button" onClick={onEdit(quote)}>
                 <span className="glyphicon glyphicon-pencil" />
             </button>
-            <button type="button" className="btn btn-default btn-sm quotes-button" onClick={onDelete(quoteItem)}>
+            <button type="button" className="btn btn-default btn-sm quotes-button" onClick={onDelete(quote)}>
                 <span className="glyphicon glyphicon-trash" />
             </button>
         </div>
@@ -18,7 +20,11 @@ const Quote = ({ onEdit, onDelete, onSelect, quote:  quoteItem}) => (
 );
 
 Quote.propTypes = {
-    quote: PropTypes.object.isRequired,
+    quote: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        text: PropTypes.string.isRequired,
+        selected: PropTypes.bool.isRequired,
+    }).isRequired,
     onEdit: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
