@@ -6,7 +6,7 @@ import { ListGroupItem } from 'react-bootstrap';
 const Quote = ({
     onEdit, onDelete, onSelect, quote,
 }) => (
-    <ListGroupItem className={`quotes-item animated fadeInUp ${quote.selected || 'selected-item'}`}>
+    <ListGroupItem className={`quotes-item animated fadeInUp ${quote.selected ? 'selected-item' : null}`}>
         <div className="quote-text" onClick={onSelect(quote.id)}>{quote.text} </div>
         <div className="quotes-buttons">
             <button type="button" className="btn btn-default btn-sm quotes-button" onClick={onEdit(quote)}>

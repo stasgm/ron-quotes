@@ -1,23 +1,23 @@
 import { ADD_QUOTE, DELETE_QUOTE, EDIT_QUOTE, CLEAR_QUOTES, SELECT_QUOTE, LOAD_QUOTES, DELETE_SELECTED_QUOTES } from '../constants';
 
-export const addQuote = (text) => (
+export const addQuote = text => (
     {
         type: ADD_QUOTE,
-        text
+        text,
     }
 );
 
-export const deleteQuote = (id) => (
+export const deleteQuote = id => (
     {
         type: DELETE_QUOTE,
-        id
+        id,
     }
 );
 
-export const editQuote = (quote) => (
+export const editQuote = quote => (
     {
         type: EDIT_QUOTE,
-        quote
+        quote,
     }
 );
 
@@ -27,23 +27,23 @@ export const clearQuotes = () => (
     }
 );
 
-export const selectQuote = (id) => (
+export const selectQuote = id => (
     {
         type: SELECT_QUOTE,
         id,
     }
 );
 
-export const loadQuotes = (quotes) => (
+export const loadQuotes = quotes => (
     {
         type: LOAD_QUOTES,
         quotes,
     }
 );
 
-export const deleteSelectedQuotes = (quotes) => (
+export const deleteSelectedQuotes = quotes => (
     {
         type: DELETE_SELECTED_QUOTES,
-        quotes
+        quotes,
     }
 );

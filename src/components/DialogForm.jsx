@@ -1,21 +1,22 @@
+/* eslint-disable jsx-a11y/no-autofocus */
 import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 
-class DialogForm extends Component{
-    state = {quote: this.props.quote} || {};
+class DialogForm extends Component {
+    state = { quote: this.props.quote };
 
     handleChange = (e) => {
         this.setState({
             quote: {
-                    ...this.state.quote,
-                    text: e.target.value,
-                }
+                ...this.state.quote,
+                text: e.target.value,
+            },
         });
     };
 
     render() {
-        let {
+        const {
             modalIsOpen,
             onHide,
             onSave,
@@ -25,16 +26,16 @@ class DialogForm extends Component{
 
         const btnText = (type === 1 ? 'Сохранить' : 'OK');
         const message = (type === 1
-            ?   <textarea
-                    autoFocus
-                    onChange={this.handleChange}
-                    className="form-control"
-                    rows="3"
-                    defaultValue={this.state.quote.text}
-                />
-            :   <div>{this.state.quote.text}</div>);
+            ? (<textarea
+                autoFocus
+                onChange={this.handleChange}
+                className="form-control"
+                rows="3"
+                defaultValue={this.state.quote.text}
+            />)
+            : <div>{this.state.quote.text}</div>);
 
-        return(
+        return (
             <div className="static-modal">
                 <Modal show={modalIsOpen} onHide={onHide}>
                     <Modal.Header>
@@ -44,16 +45,33 @@ class DialogForm extends Component{
                         {message}
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button className='modal-button' onClick={onSave(this.state.quote)} bsStyle="primary" type='submit'>{btnText}</Button>
-                        <Button className='modal-button' onClick={onHide}>Отмена</Button>
+                        <Button
+                            className="modal-button"
+                            onClick={onSave(this.state.quote)}
+                            bsStyle="primary"
+                            type="submit"
+                        >
+                            {btnText}
+                        </Button>
+                        <Button className="modal-button" onClick={onHide}>Отмена</Button>
                     </Modal.Footer>
                 </Modal>
             </div>
-        )
+        );
     }
 }
 
-DialogForm.PropTypes = {
+DialogForm.propTypes = {
+    quote: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        text: PropTypes.string.isRequired,
+        selected: PropTypes.bool.isRequired,
+    })
+        .isRequired,
+    modalIsOpen: PropTypes.bool.isRequired,
+    onHide: PropTypes.func.isRequired,
+    onSave: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
     type: PropTypes.number.isRequired,
 };
 

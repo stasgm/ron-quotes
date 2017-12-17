@@ -1,35 +1,35 @@
 import React, { Component } from 'react';
-
-import DialogForm from '../components/DialogForm'
-import Quote from './Quote';
-
+import PropTypes from 'prop-types';
 import { ListGroup } from 'react-bootstrap';
 
-class QuoteList extends Component{
+import DialogForm from '../components/DialogForm';
+import Quote from './Quote';
+
+class QuoteList extends Component {
     state = {
         modal: {
             type: null,
             isOpen: false,
             quote: {
-                id: null,
-                text: ''
+                id: '',
+                text: '',
             },
             title: '',
             onSave: null,
-        }
+        },
     };
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.actions.loadQuotes();
     }
 
 
-    handleEditQuote = (quote) => () => {
+    handleEditQuote = quote => () => {
         this.closeModal();
         this.props.actions.editQuote(quote);
     };
 
-    handleEditQuoteDialog = (quote) => () => {
+    handleEditQuoteDialog = quote => () => {
         // Настройка модального окна
         this.setState({
             modal: {
@@ -39,17 +39,17 @@ class QuoteList extends Component{
                 type: 1,
                 isOpen: true,
                 onSave: this.handleEditQuote,
-            }
+            },
         });
     };
 
-    handleDeleteQuote = (quote) => () => {
+    handleDeleteQuote = quote => () => {
         this.closeModal();
         this.props.actions.deleteQuote(quote.id);
         this.setState({});
     };
 
-    handleDeleteQuoteDialog = (quote) => () => {
+    handleDeleteQuoteDialog = quote => () => {
         // Настройка модального окна
         this.setState({
             modal: {
@@ -59,44 +59,58 @@ class QuoteList extends Component{
                 type: 0,
                 isOpen: true,
                 onSave: this.handleDeleteQuote,
-            }
+            },
         });
     };
 
-    closeModal = () => this.setState({modal: {...this.state.modal, isOpen: false}});
+    handleSelectQuote = id => () => {
+        this.props.actions.selectQuote(id);
+    };
+
+    closeModal = () => this.setState({ modal: { ...this.state.modal, isOpen: false } });
 
     render() {
-        let {
-            actions,
-            quotes
+        const {
+            quotes,
         } = this.props;
 
-        return(
+        return (
             <div>
                 {this.state.modal.isOpen
-                    ?
-                    <DialogForm
+                    ? <DialogForm
                         {...this.state.modal}
                         modalIsOpen={this.state.modal.isOpen}
                         onHide={this.closeModal}
                     /> : null}
-                <ListGroup className='quotes-group'>
-                    {quotes.map((quote) => {
-                            return (
-                                <Quote
-                                    onDelete={this.handleDeleteQuoteDialog}
-                                    onEdit={this.handleEditQuoteDialog}
-                                    onSelect={actions.selectQuote}
-                                    quote={quote}
-                                    key={quote.id}
-                                />
-                            );
-                        }
-                    )}
+                <ListGroup className="quotes-group">
+                    {quotes.map(item => (
+                        <Quote
+                            onDelete={this.handleDeleteQuoteDialog}
+                            onEdit={this.handleEditQuoteDialog}
+                            onSelect={this.handleSelectQuote}
+                            quote={item}
+                            key={item.id}
+                        />
+                    ))
+                    }
                 </ListGroup>
             </div>
-        )
+        );
     }
 }
+
+QuoteList.propTypes = {
+    quotes: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        text: PropTypes.string.isRequired,
+        selected: PropTypes.bool.isRequired,
+    })).isRequired,
+    actions: PropTypes.shape({
+        loadQuotes: PropTypes.func.isRequired,
+        editQuote: PropTypes.func.isRequired,
+        deleteQuote: PropTypes.func.isRequired,
+        selectQuote: PropTypes.func.isRequired,
+    }).isRequired,
+};
 
 export default QuoteList;
