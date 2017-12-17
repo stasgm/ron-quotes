@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import { PropTypes } from 'prop-types';
 
 class DialogForm extends Component{
     state = {quote: this.props.quote} || {};
@@ -22,7 +23,16 @@ class DialogForm extends Component{
             type,
         } = this.props;
 
-        const btnText = type === 1 ? 'Сохранить' : 'OK';
+        const btnText = (type === 1 ? 'Сохранить' : 'OK');
+        const message = (type === 1
+            ?   <textarea
+                    autoFocus
+                    onChange={this.handleChange}
+                    className="form-control"
+                    rows="3"
+                    defaultValue={this.state.quote.text}
+                />
+            :   <div>{this.state.quote.text}</div>);
 
         return(
             <div className="static-modal">
@@ -31,14 +41,7 @@ class DialogForm extends Component{
                         <Modal.Title>{title}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        {type === 1 ?
-                            <textarea
-                                autoFocus
-                                onChange={this.handleChange}
-                                className="form-control"
-                                rows="3"
-                                defaultValue={this.state.quote.text}
-                            /> : <div>{this.state.quote.text}</div>}
+                        {message}
                     </Modal.Body>
                     <Modal.Footer>
                         <Button className='modal-button' onClick={onSave(this.state.quote)} bsStyle="primary" type='submit'>{btnText}</Button>
@@ -49,5 +52,9 @@ class DialogForm extends Component{
         )
     }
 }
+
+DialogForm.PropTypes = {
+    type: PropTypes.number.isRequired,
+};
 
 export default DialogForm;
